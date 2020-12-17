@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Car;
-use App\Models\CarsBrand;
+use App\Models\Brand;
 
 class CarsTableSeeder extends Seeder
 {
@@ -15,12 +15,12 @@ class CarsTableSeeder extends Seeder
      */
     public function run()
     {
-        CarsBrand::create([
-            "brand" => "Madza"
+        Brand::create([
+            "brand" => "Mazda"
         ]);
 
         Car::create([
-            "cars_brands_id" => 1,
+            "brand_id" => 1,
             "name" => "RX7",
             "horsepower" => 300,
             "fuel" => "Gasoline",
