@@ -6,29 +6,27 @@ use Illuminate\Http\Request;
 use App\Models\Brand;
 
 class BrandController extends Controller
-{
+{   
+
+    private $response;
+
     public function index()
     {
-        $a_brands = Brand::select("id", "brand")->get();
-        return response()->json([
-            "data" => $a_brands
-        ]);
+        $brands = Brand::select("id", "brand")->get();
+        $this->response = ["data" => $brands];
+        return response()->json($this->response);
     }
 
     public function create(Request $request)
     {   
         try 
         {               
-            $brand = Brand::create([
+            $createdBrand = Brand::create([
                 "brand" => $request->get("brand")
-            ]);
-            
-            $a_brand = Brand::find($brand->id);
-
-            return response()->json([
-                "status" => "success", 
-                "data" => $a_brand
-            ]);
+            ]);            
+            $brand = Brand::find($createdBrand->id);
+            $this->response = ["status" => "success", "data" => $brand];
+            return response()->json($this->response);
         } 
         catch (\Exception $e) {
             return response()->json(["status" => "error"]);
@@ -37,8 +35,8 @@ class BrandController extends Controller
 
     public function show($id)
     {
-        $a_brand = Brand::find($id);
-        return response()->json(["data" => $a_brand]);
+        $brand = Brand::find($id);
+        return response()->json(["data" => $brand]);
     }
 
     public function update(Request $request, $id)
@@ -46,11 +44,9 @@ class BrandController extends Controller
         try 
         {
             Brand::where('id', $id)->update(['brand' => $request->get("brand")]);
-            $a_brand = Brand::find($id);
-            return response()->json([
-                "status" => "success", 
-                "data" => $a_brand
-            ]);
+            $brand = Brand::find($id);
+            $this->response = ["status" => "success", "data" => $brand];
+            return response()->json($this->response);
         } 
         catch (\Exception $e) {
             return response()->json(["status" => "error"]);
